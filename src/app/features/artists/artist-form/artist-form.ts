@@ -42,12 +42,11 @@ export class ArtistFormComponent implements OnInit {
   }
 
   loadArtist(id: number): void {
-    // CORRECCIÓN: El método en el servicio es getById
     this.artistService.getById(id).subscribe({
       next: (artist) => {
         this.artistForm.patchValue(artist);
         if (artist.image) {
-          this.imagePreview.set(`http://localhost:8080/uploads/${artist.image}`);
+          this.imagePreview.set(`http://localhost:8080/api/v1/images/${artist.image}`);
         }
       },
       error: (err) => console.error('Error cargando artista', err)
@@ -77,7 +76,7 @@ export class ArtistFormComponent implements OnInit {
 
       const file = this.selectedFile();
       if (file) {
-        formData.append('imageFile', file);
+        formData.append('image', file);
       }
 
       const id = this.artistId();

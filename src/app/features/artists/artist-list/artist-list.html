@@ -63,7 +63,7 @@
         <div class="bg-rock-800 group relative overflow-hidden border border-white/5 hover:border-rock-red/50 transition-all duration-500">
           <div class="relative h-72 overflow-hidden bg-black">
             @if (artist.image) {
-              <img [src]="'http://localhost:8080/uploads/' + artist.image"
+              <img [src]="'http://localhost:8080/api/v1/images/' + artist.image"
                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-70 group-hover:opacity-100" alt="imagen">
             } @else {
               <div class="w-full h-full flex items-center justify-center opacity-20">
