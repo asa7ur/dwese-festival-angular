@@ -1,4 +1,3 @@
-// src/app/services/artist.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -19,8 +18,7 @@ export class ArtistService {
       .set('page', page.toString())
       .set('size', size.toString())
       .set('keyword', keyword)
-      .set('sortBy', sortBy)
-      .set('direction', direction);
+      .set('sort', `${sortBy},${direction}`);
 
     return this.http.get<PageResponse<Artist>>(this.apiUrl, { params });
   }
