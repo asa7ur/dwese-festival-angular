@@ -1,3 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
+
+@theme {
+  --color-rock-red: #dc3545;
+  --color-rock-darkred: #b02a37;
+  --color-rock-900: #121212;
+  --color-rock-800: #1e1e1e;
+  --color-rock-700: #2d2d2d;
+}
+
+@layer base {
+  body {
+    @apply bg-rock-900 text-white antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+}

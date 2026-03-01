@@ -14,11 +14,13 @@ export class ArtistService {
   constructor(private http: HttpClient) {}
 
   // Obtener todos con paginación y búsqueda
-  getAll(page: number = 0, size: number = 10, keyword: string = ''): Observable<PageResponse<Artist>> {
+  getAll(page: number = 0, size: number = 10, keyword: string = '', sortBy: string = 'name', direction: string = 'asc'): Observable<PageResponse<Artist>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())
-      .set('keyword', keyword);
+      .set('keyword', keyword)
+      .set('sortBy', sortBy)
+      .set('direction', direction);
 
     return this.http.get<PageResponse<Artist>>(this.apiUrl, { params });
   }
