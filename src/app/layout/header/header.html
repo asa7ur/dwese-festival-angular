@@ -53,10 +53,22 @@
         </a>
 
         <div class="flex items-center gap-4 ml-4 border-l border-gray-700 pl-4">
-          <a routerLink="/login"
-             class="text-gray-300 hover:text-rock-red transition duration-300">
-            <i class="fa-solid fa-user-lock text-lg"></i>
-          </a>
+          @if (isLoggedIn$ | async) {
+            <span class="text-gray-300 text-sm hidden md:inline">
+              {{ userName$ | async }}
+            </span>
+            <button (click)="logout()"
+                    class="text-gray-300 hover:text-rock-red transition duration-300"
+                    title="Cerrar Sesión">
+              <i class="fa-solid fa-right-from-bracket text-lg"></i>
+            </button>
+          } @else {
+            <a routerLink="/login"
+               class="text-gray-300 hover:text-rock-red transition duration-300"
+               title="Iniciar Sesión">
+              <i class="fa-solid fa-user-lock text-lg"></i>
+            </a>
+          }
         </div>
 
         <div class="flex items-center gap-2 ml-4 border-l border-gray-700 pl-4">
