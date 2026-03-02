@@ -13,27 +13,41 @@
         <form [formGroup]="artistForm" (ngSubmit)="onSubmit()" class="space-y-6">
 
           <div>
-            <label class="block text-sm font-medium text-gray-400 mb-1">Nombre de la Banda</label>
-            <input type="text" formControlName="name"
+            <label for="name" class="block text-sm font-medium text-gray-400 mb-1">Nombre de la Banda</label>
+            <input type="text" id="name" formControlName="name"
+                   placeholder="Introduce el nombre de la banda"
                    class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red focus:ring-1 focus:ring-rock-red transition">
+            @if (artistForm.get('name')?.invalid && artistForm.get('name')?.touched) {
+              <p class="text-red-500 text-xs mt-1">El nombre es obligatorio (máx. 100 caracteres)</p>
+            }
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-400 mb-1">Género Musical</label>
-            <input type="text" formControlName="genre"
-                   class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red transition">
+            <label for="genre" class="block text-sm font-medium text-gray-400 mb-1">Género Musical</label>
+            <input type="text" id="genre" formControlName="genre"
+                   placeholder="Ej: Heavy Metal, Rock Alternativo..."
+                   class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red focus:ring-1 focus:ring-rock-red transition">
+            @if (artistForm.get('genre')?.invalid && artistForm.get('genre')?.touched) {
+              <p class="text-red-500 text-xs mt-1">El género es obligatorio</p>
+            }
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-400 mb-1">País de Origen</label>
-            <input type="text" formControlName="country"
-                   class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red transition">
+            <label for="country" class="block text-sm font-medium text-gray-400 mb-1">País de Origen</label>
+            <input type="text" id="country" formControlName="country"
+                   placeholder="Ej: España, USA, UK..."
+                   class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red focus:ring-1 focus:ring-rock-red transition">
+            @if (artistForm.get('country')?.invalid && artistForm.get('country')?.touched) {
+              <p class="text-red-500 text-xs mt-1">El país es obligatorio</p>
+            }
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-400 mb-1">Imagen</label>
-            <input type="file" (change)="onFileSelected($event)" accept="image/*"
-                   class="w-full bg-rock-700 text-gray-300 border border-gray-600 rounded-md py-2 px-3 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-rock-red file:text-white hover:file:bg-rock-darkred cursor-pointer">
+            <label for="imageFile" class="block text-sm font-medium text-gray-400 mb-1">Imagen</label>
+            <div class="relative group">
+              <input type="file" id="imageFile" (change)="onFileSelected($event)" accept="image/*"
+                     class="w-full bg-rock-700 text-gray-300 border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red transition file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-rock-red file:text-white hover:file:bg-rock-darkred cursor-pointer">
+            </div>
 
             @if (imagePreview()) {
               <div class="mt-4 bg-black/20 p-4 rounded border border-gray-700">
@@ -43,6 +57,15 @@
                   </p>
                   <img [src]="imagePreview()" alt="Preview"
                        class="w-full h-48 object-cover rounded shadow-lg border border-gray-600 mx-auto">
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-gray-700 flex justify-end items-center gap-3">
+                  <span class="text-sm text-gray-400 italic">¿Eliminar imagen?</span>
+                  <button type="button" (click)="removeImage()"
+                          class="text-red-500 hover:text-red-400 text-sm font-bold hover:underline decoration-2 underline-offset-4 flex items-center gap-2 transition">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Eliminar</span>
+                  </button>
                 </div>
               </div>
             }

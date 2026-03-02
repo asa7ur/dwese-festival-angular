@@ -65,6 +65,14 @@ export class ArtistFormComponent implements OnInit {
     }
   }
 
+  removeImage(): void {
+    this.imagePreview.set(null);
+    this.selectedFile.set(null);
+    const fileInput = document.getElementById('imageFile') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
+  }
+
+
   onSubmit(): void {
     if (this.artistForm.valid) {
       const formData = new FormData();
@@ -77,6 +85,8 @@ export class ArtistFormComponent implements OnInit {
       const file = this.selectedFile();
       if (file) {
         formData.append('image', file);
+      } else if (!this.imagePreview()) {
+        formData.append('deleteImage', 'true');
       }
 
       const id = this.artistId();

@@ -1,122 +1,129 @@
 <div class="container mx-auto px-4 py-8 min-h-screen">
+
   <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-    <h2 class="text-3xl font-extrabold text-white uppercase tracking-tighter border-l-8 border-rock-red pl-4">
-      <span class="opacity-50">Line-Up /</span> Artistas
+    <h2 class="text-3xl font-bold text-white text-shadow uppercase border-l-4 border-rock-red pl-4">
+      <i class="fa-solid fa-guitar mr-2 text-rock-red"></i>
+      <span>Line-Up / Artistas</span>
     </h2>
     <a routerLink="/artists/new"
-       class="bg-rock-red hover:bg-rock-darkred text-white font-black py-3 px-8 rounded-none transform hover:skew-x-2 transition-all duration-300 shadow-[5px_5px_0px_0px_rgba(255,255,255,0.1)] uppercase italic">
-      + Añadir Artista
+       class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-2 px-6 rounded shadow-lg transform hover:scale-105 transition duration-300">
+      <i class="fa-solid fa-plus mr-1"></i> <span>Nuevo Artista</span>
     </a>
   </div>
 
-  <div class="bg-rock-800 p-6 mb-12 border-b-4 border-rock-red shadow-2xl">
-    <div class="flex flex-col md:flex-row gap-4">
-      <div class="grow relative">
+  <div class="bg-rock-800 p-4 rounded-lg shadow-md mb-8 border border-gray-700">
+    <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
+      <div class="w-full md:w-1/2 relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+          <i class="fa-solid fa-search"></i>
+        </span>
         <input type="text"
                [ngModel]="keyword()"
                (ngModelChange)="keyword.set($event)"
                (keyup.enter)="onSearch()"
-               placeholder="BUSCAR BANDA O GÉNERO..."
-               class="w-full bg-rock-900 text-white border-2 border-rock-700 p-4 focus:border-rock-red outline-none uppercase font-mono tracking-widest transition-colors">
+               class="w-full bg-rock-700 text-white border border-gray-600 rounded pl-10 pr-4 py-2 focus:outline-none focus:border-rock-red transition placeholder-gray-500"
+               placeholder="Buscar artista o género...">
       </div>
-      <button (click)="onSearch()"
-              class="bg-rock-700 hover:bg-rock-red text-white px-10 py-4 font-bold uppercase transition-all">
-        Filtrar
-      </button>
+
+      <div class="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+        <select [ngModel]="sortBy()"
+                (ngModelChange)="sortBy.set($event); onSearch()"
+                class="bg-rock-700 text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-rock-red text-sm">
+          <option value="id">Por Defecto</option>
+          <option value="name">Nombre</option>
+          <option value="genre">Género</option>
+          <option value="country">País</option>
+        </select>
+
+        <select [ngModel]="sortDirection()"
+                (ngModelChange)="sortDirection.set($event); onSearch()"
+                class="bg-rock-700 text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-rock-red text-sm">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+
+        <button (click)="onSearch()"
+                class="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded transition border border-gray-500"
+                title="Filtrar">
+          <i class="fa-solid fa-filter"></i>
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center gap-4 mb-8 px-2">
-    <span class="text-white/40 uppercase font-black italic text-sm tracking-widest">Ordenar por:</span>
-
-    <button (click)="changeSort('name')"
-            [class.border-rock-red]="sortBy() === 'name'"
-            class="bg-rock-800 border-2 border-rock-700 px-4 py-2 text-xs font-bold uppercase hover:border-rock-red transition-all flex items-center gap-2">
-      Nombre
-      @if (sortBy() === 'name') {
-        <span>{{ sortDirection() === 'asc' ? '↑' : '↓' }}</span>
-      }
-    </button>
-
-    <button (click)="changeSort('genre')"
-            [class.border-rock-red]="sortBy() === 'genre'"
-            class="bg-rock-800 border-2 border-rock-700 px-4 py-2 text-xs font-bold uppercase hover:border-rock-red transition-all flex items-center gap-2">
-      Género
-      @if (sortBy() === 'genre') {
-        <span>{{ sortDirection() === 'asc' ? '↑' : '↓' }}</span>
-      }
-    </button>
-
-    <button (click)="changeSort('country')"
-            [class.border-rock-red]="sortBy() === 'country'"
-            class="bg-rock-800 border-2 border-rock-700 px-4 py-2 text-xs font-bold uppercase hover:border-rock-red transition-all flex items-center gap-2">
-      País
-      @if (sortBy() === 'country') {
-        <span>{{ sortDirection() === 'asc' ? '↑' : '↓' }}</span>
-      }
-    </button>
-  </div>
-
   @if (artists().length > 0) {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       @for (artist of artists(); track artist.id) {
-        <div class="bg-rock-800 group relative overflow-hidden border border-white/5 hover:border-rock-red/50 transition-all duration-500">
-          <div class="relative h-72 overflow-hidden bg-black">
+        <div class="bg-rock-800 rounded-xl overflow-hidden shadow-2xl hover:shadow-rock-red/20 transition duration-500 group border border-gray-700 flex flex-col h-full transform hover:-translate-y-1">
+
+          <div class="relative w-full h-64 overflow-hidden bg-gray-900">
             @if (artist.image) {
               <img [src]="'http://localhost:8080/api/v1/images/' + artist.image"
-                   class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-70 group-hover:opacity-100" alt="imagen">
+                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                   alt="Artist Image">
             } @else {
-              <div class="w-full h-full flex items-center justify-center opacity-20">
-                <span class="text-6xl text-white">🎸</span>
+              <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-black group-hover:from-gray-700 group-hover:to-gray-900 transition duration-500">
+                <i class="fa-solid fa-guitar text-gray-700 group-hover:text-rock-red/50 text-6xl transition duration-500"></i>
               </div>
             }
-            <div class="absolute top-0 left-0 bg-rock-red text-white text-[10px] font-black px-3 py-1 uppercase tracking-tighter">
-              {{ artist.country }}
+
+            <div class="absolute top-4 right-4">
+               <span class="bg-black/70 backdrop-blur-sm border border-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg flex items-center gap-2">
+                  <i class="fa-solid fa-earth-americas text-rock-red"></i>
+                  <span>{{ artist.country }}</span>
+               </span>
             </div>
+
+            <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-rock-800 to-transparent"></div>
           </div>
 
-          <div class="p-6">
-            <span class="text-rock-red text-xs font-bold uppercase tracking-[0.3em] block mb-2">{{ artist.genre }}</span>
-            <h3 class="text-2xl font-black text-white uppercase italic group-hover:text-rock-red transition-colors mb-4">
+          <div class="p-6 flex-grow relative">
+            <p class="text-rock-red text-xs font-bold uppercase tracking-[0.2em] mb-2">{{ artist.genre }}</p>
+            <h5 class="text-2xl font-black text-white leading-tight mb-2 group-hover:text-rock-red transition duration-300">
               {{ artist.name }}
-            </h3>
+            </h5>
+          </div>
 
-            <div class="flex justify-between items-center pt-4 border-t border-white/10">
-              <span class="text-white/30 font-mono text-xs">#{{ artist.id }}</span>
-              <div class="flex gap-4">
-                <a [routerLink]="['/artists/edit', artist.id]"
-                   class="text-white/50 hover:text-white transition-colors">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                </a>
-                <button (click)="deleteArtist(artist.id)"
-                        class="text-white/50 hover:text-rock-red transition-colors">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                </button>
-              </div>
+          <div class="px-6 py-4 bg-black/20 border-t border-gray-700 flex justify-between items-center">
+            <span class="text-xs text-gray-500 font-mono">ID: <span>{{ artist.id }}</span></span>
+
+            <div class="flex gap-4">
+              <a [routerLink]="['/artists/edit', artist.id]"
+                 class="text-gray-400 hover:text-white transition duration-300" title="Editar">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+
+              <button (click)="deleteArtist(artist.id)"
+                      class="text-gray-400 hover:text-red-500 transition duration-300"
+                      title="Eliminar">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
             </div>
           </div>
-          <div class="absolute bottom-0 left-0 h-1 w-0 bg-rock-red group-hover:w-full transition-all duration-500"></div>
+
+          <div class="h-1 w-full bg-gradient-to-r from-rock-800 via-rock-red to-rock-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
         </div>
       }
     </div>
   } @else {
-    <div class="bg-rock-800 border-2 border-dashed border-rock-700 p-20 text-center">
-      <h3 class="text-white/20 text-4xl font-black uppercase italic">Escenario Vacío</h3>
-      <p class="text-white/40 mt-2 font-mono">No hay bandas confirmadas para esta búsqueda.</p>
+    <div class="bg-rock-800 border-2 border-dashed border-gray-700 p-20 text-center rounded-xl">
+      <i class="fa-solid fa-guitar text-gray-600 text-6xl mb-4"></i>
+      <h3 class="text-white/80 text-2xl font-bold uppercase">Escenario Vacío</h3>
+      <p class="text-gray-400 mt-2 font-mono">No hay bandas confirmadas para esta búsqueda.</p>
     </div>
   }
 
   @if (totalPages() > 1) {
-    <div class="mt-16 flex justify-center gap-2">
-      @for (page of getPagesArray(); track page) {
-        <button (click)="goToPage(page)"
-                [class.bg-rock-red]="page === currentPage()"
-                [class.text-white]="page === currentPage()"
-                [class.bg-rock-800]="page !== currentPage()"
-                class="w-12 h-12 flex items-center justify-center font-black border-2 border-rock-700 hover:border-rock-red transition-all">
-          {{ page + 1 }}
-        </button>
-      }
+    <div class="mt-10 flex justify-center">
+      <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+        @for (page of getPagesArray(); track page) {
+          <button (click)="goToPage(page)"
+                  class="px-4 py-2 border border-gray-700 text-sm font-medium transition"
+                  [class]="page === currentPage() ? 'bg-rock-red text-white border-rock-red z-10' : 'bg-rock-800 text-gray-400 hover:bg-gray-700'">
+            {{ page + 1 }}
+          </button>
+        }
+      </nav>
     </div>
   }
 </div>
