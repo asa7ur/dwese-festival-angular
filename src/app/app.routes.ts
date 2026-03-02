@@ -3,8 +3,13 @@ import {Forbidden} from './features/forbidden/forbidden';
 import {Error404} from './features/error404/error404';
 import {ArtistListComponent} from './features/artists/artist-list/artist-list';
 import {ArtistFormComponent} from './features/artists/artist-form/artist-form';
+import {LoginComponent} from './features/auth/login/login';
 
 export const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
   {
     path: 'artists',
     component: ArtistListComponent,

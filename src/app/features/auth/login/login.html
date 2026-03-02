@@ -1,0 +1,65 @@
+<div class="min-h-[80vh] flex items-center justify-center px-4">
+  <div class="bg-rock-800 p-8 rounded-xl border border-gray-700 w-full max-w-md shadow-2xl transform transition-all">
+
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-rock-900 border-2 border-rock-red rounded-full mb-4 shadow-lg shadow-rock-red/20">
+        <i class="fa-solid fa-hand-horns text-rock-red text-2xl"></i>
+      </div>
+      <h2 class="text-3xl font-black text-white uppercase tracking-wider">Acceso Staff</h2>
+      <p class="text-gray-400 text-sm mt-2 font-mono">Panel de Control RockFest</p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="mb-6 bg-red-900/30 border border-red-500 text-red-200 px-4 py-3 rounded text-sm flex items-center gap-3">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>{{ errorMessage() }}</span>
+      </div>
+    }
+
+    <form (submit)="onSubmit()" class="space-y-6">
+      <div>
+        <label class="block text-gray-400 text-xs font-bold uppercase mb-2 tracking-widest">Usuario</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+            <i class="fa-solid fa-user"></i>
+          </span>
+          <input type="text"
+                 [(ngModel)]="username" name="username"
+                 class="w-full bg-rock-700 text-white border border-gray-600 rounded pl-10 pr-4 py-3 focus:outline-none focus:border-rock-red transition placeholder-gray-500"
+                 placeholder="Ej: admin_rock">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-gray-400 text-xs font-bold uppercase mb-2 tracking-widest">Contraseña</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+            <i class="fa-solid fa-lock"></i>
+          </span>
+          <input type="password"
+                 [(ngModel)]="password" name="password"
+                 class="w-full bg-rock-700 text-white border border-gray-600 rounded pl-10 pr-4 py-3 focus:outline-none focus:border-rock-red transition placeholder-gray-500"
+                 placeholder="••••••••">
+        </div>
+      </div>
+
+      <button type="submit"
+              [disabled]="isLoading()"
+              class="w-full bg-rock-red hover:bg-rock-darkred disabled:bg-gray-700 text-white font-bold py-3 rounded shadow-lg transform hover:scale-[1.02] active:scale-95 transition duration-300 uppercase tracking-widest flex justify-center items-center gap-2">
+        @if (isLoading()) {
+          <i class="fa-solid fa-spinner animate-spin"></i>
+          <span>Autenticando...</span>
+        } @else {
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>Entrar</span>
+        }
+      </button>
+    </form>
+
+    <div class="mt-8 pt-6 border-t border-gray-700 text-center">
+      <p class="text-gray-500 text-xs uppercase tracking-tighter">
+        &copy; 2025 RockFest Manager - Área Privada
+      </p>
+    </div>
+  </div>
+</div>

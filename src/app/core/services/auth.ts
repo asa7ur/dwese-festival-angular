@@ -38,7 +38,7 @@ export class AuthService {
    */
   login(username: string, password: string): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(
-      `${environment.apiUrl}/v1/authenticate`,
+      `${environment.apiUrl}/authenticate`,
       {username, password},
       {headers: new HttpHeaders({'Content-Type': 'application/json'})}
     );
