@@ -11,7 +11,6 @@ import { Artist } from '../../../models/artist.model';
   templateUrl: 'artist-list.html'
 })
 export class ArtistListComponent implements OnInit {
-  // --- Signals de Estado de Datos ---
   artists = signal<Artist[]>([]);
   keyword = signal<string>('');
   currentPage = signal<number>(0);

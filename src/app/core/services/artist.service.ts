@@ -15,7 +15,7 @@ export class ArtistService {
   /**
    * Obtiene la lista de artistas con paginación y ordenación.
    */
-  getAll(page: number = 0, size: number = 10, keyword: string = '', sortBy: string = 'name', direction: string = 'asc'): Observable<PageResponse<Artist>> {
+  getAll(page: number = 0, size: number = 10, keyword: string = '', sortBy: string = 'id', direction: string = 'asc'): Observable<PageResponse<Artist>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())

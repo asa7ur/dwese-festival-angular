@@ -19,11 +19,8 @@ export class AttendeeService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())
+      .set('keyword', keyword)
       .set('sort', `${sortBy},${direction}`);
-
-    if (keyword) {
-      params = params.set('keyword', keyword);
-    }
 
     return this.http.get<PageResponse<Attendee>>(this.apiUrl, { params });
   }
