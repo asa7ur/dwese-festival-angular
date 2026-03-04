@@ -1,0 +1,128 @@
+<div class="container mx-auto px-4 min-h-screen">
+  <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <h2 class="text-3xl font-bold text-white text-shadow uppercase border-l-4 border-rock-red pl-4">
+      <i class="fa-solid fa-users-line mr-2 text-rock-red"></i>
+      <span>Asistentes</span>
+    </h2>
+    <a routerLink="/attendees/new"
+       class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-2 px-6 rounded shadow-lg transform hover:scale-105 transition duration-300">
+      <i class="fa-solid fa-plus mr-1"></i>
+      <span>Registrar Asistente</span>
+    </a>
+  </div>
+
+  @if (successMessage()) {
+    <div class="bg-green-900/50 border border-green-600 text-green-100 px-4 py-3 rounded relative mb-6" role="alert">
+      <span class="block sm:inline"><i class="fa-solid fa-check-circle mr-2"></i>{{ successMessage() }}</span>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="bg-red-900/50 border border-red-600 text-red-100 px-4 py-3 rounded relative mb-6" role="alert">
+      <span class="block sm:inline"><i class="fa-solid fa-exclamation-triangle mr-2"></i>{{ errorMessage() }}</span>
+    </div>
+  }
+
+  <div class="bg-rock-800 p-4 rounded-lg shadow-md mb-8 border border-gray-700">
+    <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
+      <div class="w-full md:w-1/2 relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+          <i class="fa-solid fa-search"></i>
+        </span>
+        <input type="text"
+               name="keyword"
+               [ngModel]="keyword()"
+               (ngModelChange)="keyword.set($event)"
+               (keyup.enter)="onSearch()"
+               class="w-full bg-rock-700 text-white border border-gray-600 rounded pl-10 pr-4 py-2 focus:outline-none focus:border-rock-red transition placeholder-gray-500"
+               placeholder="Buscar por nombre o DNI...">
+      </div>
+
+      <div class="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+        <select name="sortBy"
+                [ngModel]="sortBy()"
+                (ngModelChange)="sortBy.set($event); onSearch()"
+                class="bg-rock-700 text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-rock-red text-sm">
+          <option value="id">Por Defecto</option>
+          <option value="name">Nombre</option>
+          <option value="dni">DNI</option>
+          <option value="email">Email</option>
+        </select>
+
+        <select name="direction"
+                [ngModel]="sortDirection()"
+                (ngModelChange)="sortDirection.set($event); onSearch()"
+                class="bg-rock-700 text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-rock-red text-sm">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+
+        <button type="submit"
+                class="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded transition border border-gray-500"
+                title="Filtrar">
+          <i class="fa-solid fa-filter"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (attendee of attendees(); track attendee.id) {
+      <div class="bg-rock-800 rounded-lg overflow-hidden shadow-lg hover:shadow-rock-red/20 transition duration-300 group relative border border-gray-700 flex flex-col">
+
+        <div class="bg-black/50 p-4 flex items-center gap-4 border-b border-gray-700">
+          <div class="bg-rock-red rounded-full p-3 text-white">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div>
+            <h5 class="text-xl font-bold text-white leading-tight">{{ attendee.name }}</h5>
+            <span class="text-xs text-gray-400 font-mono tracking-wider">{{ attendee.dni }}</span>
+          </div>
+        </div>
+
+        <div class="p-6 grow space-y-3">
+          <div class="flex items-center gap-3 text-gray-300">
+            <i class="fa-solid fa-envelope text-rock-red w-5"></i>
+            <span class="text-sm truncate">{{ attendee.email }}</span>
+          </div>
+          <div class="flex items-center gap-3 text-gray-300">
+            <i class="fa-solid fa-phone text-rock-red w-5"></i>
+            <span class="text-sm">{{ attendee.phone }}</span>
+          </div>
+        </div>
+
+        <div class="bg-black/20 p-4 flex justify-between items-center border-t border-gray-700">
+          <a [routerLink]="['/attendees/edit', attendee.id]"
+             class="text-yellow-500 hover:text-yellow-400 text-sm font-semibold transition flex items-center gap-1">
+            <i class="fa-solid fa-pen"></i> <span>Editar</span>
+          </a>
+
+          <button (click)="deleteAttendee(attendee.id)"
+                  class="text-red-500 hover:text-red-400 text-sm font-semibold transition flex items-center gap-1">
+            <i class="fa-solid fa-trash"></i> <span>Borrar</span>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (attendees().length === 0) {
+    <div class="text-center py-12">
+      <p class="text-gray-500 text-xl">No se encontraron asistentes.</p>
+    </div>
+  }
+
+  @if (totalPages() > 1) {
+    <div class="mt-10 flex justify-center">
+      <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+        @for (page of getPagesArray(); track page) {
+          <button (click)="goToPage(page)"
+                  class="px-4 py-2 border border-gray-700 text-sm font-medium transition"
+                  [class]="page === currentPage() ? 'bg-rock-red text-white border-rock-red' : 'bg-rock-800 text-gray-400 hover:bg-gray-700'">
+            {{ page + 1 }}
+          </button>
+        }
+      </nav>
+    </div>
+  }
+</div>

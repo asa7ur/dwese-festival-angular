@@ -1,0 +1,86 @@
+<div class="container mx-auto px-4 flex justify-center items-center min-h-[80vh]">
+  <div class="w-full max-w-lg">
+    <div class="bg-rock-800 rounded-lg shadow-2xl border border-gray-700 overflow-hidden">
+
+      <div class="bg-black/40 px-6 py-4 border-b border-gray-700">
+        <h4 class="text-lg font-bold text-white uppercase tracking-wide">
+          <i class="fa-solid fa-user-plus mr-2 text-rock-red"></i>
+          <span>
+            @if (isEditMode()) { Editar Asistente } @else { Nuevo Asistente }
+          </span>
+        </h4>
+      </div>
+
+      <div class="p-8">
+        @if (errorMessage()) {
+          <div class="bg-red-900/50 border border-red-600 text-red-100 px-4 py-3 rounded relative mb-6" role="alert">
+            <span class="block sm:inline">{{ errorMessage() }}</span>
+          </div>
+        }
+
+        <form (ngSubmit)="onSubmit()" #attendeeForm="ngForm" class="space-y-5">
+
+          <div>
+            <label for="dni" class="block text-sm font-medium text-gray-400 mb-1">DNI / ID</label>
+            <input type="text"
+                   id="dni"
+                   name="dni"
+                   [ngModel]="attendee().dni"
+                   (ngModelChange)="updateField('dni', $event)"
+                   required
+                   class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red focus:ring-1 focus:ring-rock-red transition uppercase"
+                   placeholder="12345678A">
+          </div>
+
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-400 mb-1">Nombre Completo</label>
+            <input type="text"
+                   id="name"
+                   name="name"
+                   [ngModel]="attendee().name"
+                   (ngModelChange)="updateField('name', $event)"
+                   required
+                   class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red focus:ring-1 focus:ring-rock-red transition"
+                   placeholder="Juan Pérez">
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-400 mb-1">Correo Electrónico</label>
+            <input type="email"
+                   id="email"
+                   name="email"
+                   [ngModel]="attendee().email"
+                   (ngModelChange)="updateField('email', $event)"
+                   required
+                   class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red focus:ring-1 focus:ring-rock-red transition"
+                   placeholder="juan@email.com">
+          </div>
+
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-400 mb-1">Teléfono</label>
+            <input type="text"
+                   id="phone"
+                   name="phone"
+                   [ngModel]="attendee().phone"
+                   (ngModelChange)="updateField('phone', $event)"
+                   required
+                   class="w-full bg-rock-700 text-white border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-rock-red focus:ring-1 focus:ring-rock-red transition"
+                   placeholder="600123456">
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 mt-8 pt-4 border-t border-gray-700">
+            <button type="submit"
+                    [disabled]="!attendeeForm.form.valid"
+                    class="flex-1 bg-rock-red hover:bg-rock-darkred disabled:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+              <span>Guardar</span>
+            </button>
+            <a routerLink="/attendees"
+               class="flex-1 text-center bg-transparent border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white font-medium py-2 px-4 rounded transition duration-300">
+              <span>Cancelar</span>
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
