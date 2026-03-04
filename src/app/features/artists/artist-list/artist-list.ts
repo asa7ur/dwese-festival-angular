@@ -11,6 +11,7 @@ import { Artist } from '../../../models/artist.model';
   templateUrl: 'artist-list.html'
 })
 export class ArtistListComponent implements OnInit {
+  // --- Signals de Estado de Datos ---
   artists = signal<Artist[]>([]);
   keyword = signal<string>('');
   currentPage = signal<number>(0);
@@ -43,20 +44,6 @@ export class ArtistListComponent implements OnInit {
           console.error('Error al cargar artistas', err);
         }
       });
-  }
-
-  // Función para cambiar el orden
-  changeSort(column: string): void {
-    if (this.sortBy() === column) {
-      // Si pulsamos en la misma columna, invertimos la dirección
-      this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
-    } else {
-      // Si es una columna nueva, ponemos asc por defecto
-      this.sortBy.set(column);
-      this.sortDirection.set('asc');
-    }
-    this.currentPage.set(0); // Reset a la primera página
-    this.loadArtists();
   }
 
   // Función para manejar la búsqueda

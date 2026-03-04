@@ -12,7 +12,9 @@ export class ArtistService {
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todos con paginación y búsqueda
+  /**
+   * Obtiene la lista de artistas con paginación y ordenación.
+   */
   getAll(page: number = 0, size: number = 10, keyword: string = '', sortBy: string = 'name', direction: string = 'asc'): Observable<PageResponse<Artist>> {
     let params = new HttpParams()
       .set('page', page.toString())

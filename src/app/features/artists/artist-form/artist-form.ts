@@ -6,7 +6,6 @@ import { ArtistService } from '../../../core/services/artist.service';
 
 @Component({
   selector: 'app-artist-form',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './artist-form.html'
 })
@@ -75,34 +74,47 @@ export class ArtistFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.artistForm.valid) {
-      const formData = new FormData();
-      const artistData = this.artistForm.value;
-
-      formData.append('name', artistData.name);
-      formData.append('genre', artistData.genre);
-      formData.append('country', artistData.country);
-
-      const file = this.selectedFile();
-      if (file) {
-        formData.append('image', file);
-      } else if (!this.imagePreview()) {
-        formData.append('deleteImage', 'true');
-      }
-
       const id = this.artistId();
+      const file = this.selectedFile();
 
-      const request = (this.isEditMode() && id)
-        ? this.artistService.update(id, formData)
-        : this.artistService.create(formData);
+      // Creamos el FormData con los datos básicos
+      const formData = new FormData();
+      formData.append('name', this.artistForm.value.name);
+      formData.append('genre', this.artistForm.value.genre);
+      formData.append('country', this.artistForm.value.country);
+      if (file) formData.append('image', file);
 
-      request.subscribe({
-        next: () => {
-          this.router.navigate(['/artists']);
-        },
-        error: (err) => {
-          console.error('Error al guardar el artista', err);
+      if (this.isEditMode() && id) {
+        // CASO EDICIÓN:
+        // Si el usuario eliminó la imagen (no hay preview y no ha subido un archivo nuevo)
+        if (!this.imagePreview() && !file) {
+          // 1. Primero llamamos al endpoint de borrar imagen del backend
+          this.artistService.deleteImage(id).subscribe({
+            next: () => {
+              // 2. Una vez borrada en el servidor, actualizamos los textos
+              this.actualizarArtista(id, formData);
+            },
+            error: (err) => console.error('Error al borrar imagen', err)
+          });
+        } else {
+          // Actualización normal (con imagen nueva o manteniendo la que había)
+          this.actualizarArtista(id, formData);
         }
-      });
+      } else {
+        // CASO CREACIÓN:
+        this.artistService.create(formData).subscribe({
+          next: () => this.router.navigate(['/artists']),
+          error: (err) => console.error('Error al crear', err)
+        });
+      }
     }
+  }
+
+  // Método auxiliar para limpiar el código
+  private actualizarArtista(id: number, data: FormData) {
+    this.artistService.update(id, data).subscribe({
+      next: () => this.router.navigate(['/artists']),
+      error: (err) => console.error('Error al actualizar', err)
+    });
   }
 }
