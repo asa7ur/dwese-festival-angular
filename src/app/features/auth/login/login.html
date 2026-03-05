@@ -45,7 +45,7 @@
 
       <button type="submit"
               [disabled]="isLoading()"
-              class="w-full bg-rock-red hover:bg-rock-darkred disabled:bg-gray-700 text-white font-bold py-3 rounded shadow-lg transform hover:scale-[1.02] active:scale-95 transition duration-300 uppercase tracking-widest flex justify-center items-center gap-2">
+              class="w-full bg-rock-red hover:bg-rock-darkred disabled:bg-gray-700 text-white font-bold py-3 rounded shadow-lg transform hover:scale-[1.02] active:scale-95 transition duration-300 uppercase tracking-widest flex justify-center items-center gap-2 cursor-pointer">
         @if (isLoading()) {
           <i class="fa-solid fa-spinner animate-spin"></i>
           <span>Autenticando...</span>

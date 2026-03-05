@@ -102,12 +102,12 @@
 
             <div class="flex gap-4">
               <a [routerLink]="['/artists/edit', artist.id]"
-                 class="text-gray-400 hover:text-white transition duration-300" title="Editar">
+                 class="text-gray-400 hover:text-white transition duration-300 cursor-pointer" title="Editar">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
 
               <button (click)="deleteArtist(artist.id)"
-                      class="text-gray-400 hover:text-red-500 transition duration-300"
+                      class="text-gray-400 hover:text-red-500 transition duration-300 cursor-pointer"
                       title="Eliminar">
                 <i class="fa-solid fa-trash-can"></i>
               </button>

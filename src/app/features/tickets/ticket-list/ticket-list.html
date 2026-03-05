@@ -95,10 +95,10 @@
             <span class="text-2xl font-bold text-white">{{ ticket.price | number:'1.2-2' }} €</span>
 
             <div class="flex gap-2">
-              <a [routerLink]="['/tickets/edit', ticket.id]" class="text-gray-400 hover:text-white transition">
+              <a [routerLink]="['/tickets/edit', ticket.id]" class="text-gray-400 hover:text-white transition cursor-pointer">
                 <i class="fa-solid fa-pen"></i>
               </a>
-              <button (click)="onDelete(ticket.id!)" class="text-gray-400 hover:text-red-500 transition">
+              <button (click)="onDelete(ticket.id!)" class="text-gray-400 hover:text-red-500 transition cursor-pointer">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>

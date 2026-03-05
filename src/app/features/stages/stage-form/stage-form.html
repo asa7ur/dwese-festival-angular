@@ -59,7 +59,7 @@
             Cancelar
           </a>
           <button type="submit" [disabled]="stageForm.invalid"
-                  class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-3 px-8 rounded shadow-lg transform hover:scale-105 transition duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-3 px-8 rounded shadow-lg transform hover:scale-105 transition duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
             <i class="fa-solid fa-save"></i>
             {{ isEditMode() ? 'Actualizar' : 'Guardar' }}
           </button>

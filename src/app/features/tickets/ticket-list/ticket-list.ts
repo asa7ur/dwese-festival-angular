@@ -40,8 +40,8 @@ export class TicketListComponent implements OnInit {
         this.totalPages.set(response.totalPages);
       },
       error: (err) => {
-        console.error('Error al cargar conciertos', err);
-        this.errorMessage.set('No se pudo cargar la lista de conciertos.');
+        console.error('Error al cargar entradas', err);
+        this.errorMessage.set('No se pudo cargar la lista de entradas.');
       }
     });
   }

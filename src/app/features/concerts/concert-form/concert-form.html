@@ -64,7 +64,7 @@
         <div class="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-gray-700">
           <a routerLink="/concerts" class="text-gray-400 hover:text-white font-bold py-2 px-4">Cancelar</a>
           <button type="submit" [disabled]="f.invalid"
-                  class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-3 px-8 rounded shadow-lg transform hover:scale-105 transition disabled:opacity-50">
+                  class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-3 px-8 rounded shadow-lg transform hover:scale-105 transition disabled:opacity-50 cursor-pointer">
             <i class="fa-solid fa-calendar-check mr-2"></i>
             {{ isEditMode() ? 'Actualizar' : 'Programar' }}
           </button>

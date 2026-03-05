@@ -14,8 +14,10 @@ import {TicketListComponent} from './features/tickets/ticket-list/ticket-list';
 import {TicketFormComponent} from './features/tickets/ticket-form/ticket-form';
 import {StageListComponent} from './features/stages/stage-list/stage-list';
 import {StageFormComponent} from './features/stages/stage-form/stage-form';
+import {DashboardComponent} from './features/dashboard/dashboard';
 
 export const routes: Routes = [
+  { path: '', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent, canActivate: [guestGuard]},
 
   // Rutas de artistas

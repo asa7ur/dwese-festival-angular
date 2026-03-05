@@ -85,10 +85,10 @@
             <span class="text-sm font-semibold text-gray-500 uppercase tracking-tighter italic">Festival Area</span>
 
             <div class="flex gap-2">
-              <a [routerLink]="['/stages/edit', stage.id]" class="text-gray-400 hover:text-white transition">
+              <a [routerLink]="['/stages/edit', stage.id]" class="text-gray-400 hover:text-white transition cursor-pointer">
                 <i class="fa-solid fa-pen"></i>
               </a>
-              <button (click)="onDelete(stage.id!)" class="text-gray-400 hover:text-red-500 transition">
+              <button (click)="onDelete(stage.id!)" class="text-gray-400 hover:text-red-500 transition cursor-pointer">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>
