@@ -1,5 +1,4 @@
 <div class="container mx-auto px-4 py-8 min-h-screen">
-
   <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
     <h2 class="text-3xl font-bold text-white text-shadow uppercase border-l-4 border-rock-red pl-4">
       <i class="fa-solid fa-guitar mr-2 text-rock-red"></i>
@@ -7,9 +6,23 @@
     </h2>
     <a routerLink="/artists/new"
        class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-2 px-6 rounded shadow-lg transform hover:scale-105 transition duration-300">
-      <i class="fa-solid fa-plus mr-1"></i> <span>Nuevo Artista</span>
+      <i class="fa-solid fa-plus mr-1"></i>
+      <span>Nuevo Artista</span>
     </a>
   </div>
+
+  @if (successMessage()) {
+    <div class="bg-green-900/50 border border-green-600 text-green-100 px-4 py-3 rounded relative mb-6" role="alert">
+      <span class="block sm:inline"><i class="fa-solid fa-check-circle mr-2"></i>{{ successMessage() }}</span>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="bg-red-900/50 border border-red-600 text-red-100 px-4 py-3 rounded relative mb-6" role="alert">
+      <span class="block sm:inline"><i class="fa-solid fa-exclamation-triangle mr-2"></i>{{ errorMessage() }}</span>
+    </div>
+  }
+
 
   <div class="bg-rock-800 p-4 rounded-lg shadow-md mb-8 border border-gray-700">
     <div class="flex flex-col md:flex-row gap-4 justify-between items-center">

@@ -3,13 +3,14 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {PageResponse} from '../../models/page-response.model';
 import {Concert} from '../../models/concert.model';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class ConcertService {
-  private apiUrl = 'http://localhost:8080/api/v1/concerts';
+  private apiUrl = `${environment.apiUrl}/concerts`;
 
   constructor(private http: HttpClient) {}
 

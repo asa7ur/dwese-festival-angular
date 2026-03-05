@@ -1,0 +1,70 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="text-3xl font-bold text-white mb-8 uppercase border-l-4 border-rock-red pl-4">
+      <i class="fa-solid fa-landmark mr-2 text-rock-red"></i>
+      {{ isEditMode() ? 'Editar Escenario' : 'Nuevo Escenario' }}
+    </h2>
+
+    @if (errorMessage()) {
+      <div class="bg-red-900/50 border border-red-600 text-red-100 px-4 py-3 rounded relative mb-6" role="alert">
+        <span class="block sm:inline">
+          <i class="fa-solid fa-exclamation-triangle mr-2"></i>{{ errorMessage() }}
+        </span>
+      </div>
+    }
+
+    <div class="bg-rock-800 p-8 rounded-lg shadow-xl border border-gray-700">
+      <form (ngSubmit)="onSubmit()" #stageForm="ngForm" class="space-y-6">
+
+        <div>
+          <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wide">
+            Nombre del Escenario
+          </label>
+          <input type="text" name="name" required minlength="3"
+                 [ngModel]="stage().name"
+                 (ngModelChange)="updateField('name', $event)"
+                 #name="ngModel"
+                 class="w-full bg-rock-700 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none focus:border-rock-red transition shadow-inner"
+                 [class.border-red-500]="name.invalid && name.touched"
+                 placeholder="Ej: Main Stage, Red Zone...">
+          @if (name.invalid && name.touched) {
+            <p class="text-red-500 text-xs mt-1 italic">El nombre es obligatorio (mín. 3 caracteres).</p>
+          }
+        </div>
+
+        <div>
+          <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wide">
+            Capacidad (Personas)
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+              <i class="fa-solid fa-users"></i>
+            </span>
+            <input type="number" name="capacity" required min="1"
+                   [ngModel]="stage().capacity"
+                   (ngModelChange)="updateField('capacity', $event)"
+                   #capacity="ngModel"
+                   class="w-full bg-rock-700 text-white border border-gray-600 rounded pl-10 pr-4 py-3 focus:outline-none focus:border-rock-red transition shadow-inner"
+                   [class.border-red-500]="capacity.invalid && capacity.touched"
+                   placeholder="0">
+          </div>
+          @if (capacity.invalid && capacity.touched) {
+            <p class="text-red-500 text-xs mt-1 italic">La capacidad debe ser al menos de 1 persona.</p>
+          }
+        </div>
+
+        <div class="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-gray-700">
+          <a routerLink="/stages"
+             class="text-gray-400 hover:text-white transition font-bold py-2 px-4">
+            Cancelar
+          </a>
+          <button type="submit" [disabled]="stageForm.invalid"
+                  class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-3 px-8 rounded shadow-lg transform hover:scale-105 transition duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-save"></i>
+            {{ isEditMode() ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -2,8 +2,6 @@ import {Component, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ArtistService } from '../../../core/services/artist.service'
-import { Artist } from '../../../models/artist.model';
 import {Concert} from '../../../models/concert.model';
 import {ConcertService} from '../../../core/services/concert.service';
 
@@ -18,8 +16,10 @@ export class ConcertListComponent implements OnInit {
   currentPage = signal<number>(0);
   totalPages = signal<number>(0);
   pageSize = 6;
-  sortBy = signal<string>('name');
+  sortBy = signal<string>('id');
   sortDirection = signal<string>('asc');
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
 
   constructor(private concertService: ConcertService) {}
 
@@ -43,6 +43,7 @@ export class ConcertListComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error al cargar conciertos', err);
+          this.errorMessage.set('No se pudo cargar la lista de conciertos.');
         }
       });
   }
@@ -68,10 +69,13 @@ export class ConcertListComponent implements OnInit {
     if (id && confirm('¿Estás seguro de que quieres eliminar este concierto?')) {
       this.concertService.delete(id).subscribe({
         next: () => {
+          this.successMessage.set('Concierto eliminado correctamente.');
           this.loadConcerts(); // Recargar la lista tras borrar
+          setTimeout(() => this.successMessage.set(null), 3000);
         },
         error: (err) => {
-          alert('No se pudo borrar el concierto. Es posible que tenga artistas o escenarios asociados.');
+          this.errorMessage.set('No se pudo borrar el concierto. Es posible que tenga artistas o escenarios asociados.');
+          setTimeout(() => this.errorMessage.set(null), 5000);
         }
       });
     }

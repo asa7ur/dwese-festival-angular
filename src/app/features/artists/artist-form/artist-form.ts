@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ArtistService } from '../../../core/services/artist.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-artist-form',
@@ -11,8 +12,6 @@ import { ArtistService } from '../../../core/services/artist.service';
 })
 export class ArtistFormComponent implements OnInit {
   artistForm: FormGroup;
-
-  // Signals para el estado del componente
   isEditMode = signal<boolean>(false);
   artistId = signal<number | undefined>(undefined);
   imagePreview = signal<string | null>(null);
@@ -45,7 +44,7 @@ export class ArtistFormComponent implements OnInit {
       next: (artist) => {
         this.artistForm.patchValue(artist);
         if (artist.image) {
-          this.imagePreview.set(`http://localhost:8080/api/v1/images/${artist.image}`);
+          this.imagePreview.set(`${environment.apiUrl}/images/${artist.image}`);
         }
       },
       error: (err) => console.error('Error cargando artista', err)

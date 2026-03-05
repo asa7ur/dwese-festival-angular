@@ -12,13 +12,12 @@ import { PageResponse } from '../../../models/page-response.model';
   templateUrl: './attendee-list.html'
 })
 export class AttendeeListComponent implements OnInit {
-  // --- Signals de Estado de Datos ---
   attendees = signal<Attendee[]>([]);
   keyword = signal<string>('');
   currentPage = signal<number>(0);
   totalPages = signal<number>(0);
   pageSize = 6;
-  sortBy = signal<string>('name');
+  sortBy = signal<string>('id');
   sortDirection = signal<string>('asc');
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);

@@ -3,12 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Attendee } from '../../models/attendee.model';
 import { PageResponse } from '../../models/page-response.model';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttendeeService {
-  private apiUrl = 'http://localhost:8080/api/v1/attendees';
+  private apiUrl = `${environment.apiUrl}/attendees`;
 
   constructor(private http: HttpClient) {}
 

@@ -16,8 +16,10 @@ export class ArtistListComponent implements OnInit {
   currentPage = signal<number>(0);
   totalPages = signal<number>(0);
   pageSize = 6;
-  sortBy = signal<string>('name');
+  sortBy = signal<string>('id');
   sortDirection = signal<string>('asc');
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
 
   constructor(private artistService: ArtistService) {}
 
@@ -41,6 +43,8 @@ export class ArtistListComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error al cargar artistas', err);
+          this.errorMessage.set('No se pudo cargar la lista de artistas.');
+
         }
       });
   }
@@ -66,10 +70,13 @@ export class ArtistListComponent implements OnInit {
     if (id && confirm('¿Estás seguro de que quieres eliminar este artista?')) {
       this.artistService.delete(id).subscribe({
         next: () => {
+          this.successMessage.set('Artista eliminado correctamente.');
           this.loadArtists(); // Recargar la lista tras borrar
+          setTimeout(() => this.successMessage.set(null), 3000);
         },
         error: (err) => {
-          alert('No se pudo borrar el artista. Es posible que tenga conciertos asociados.');
+          this.errorMessage.set('No se pudo borrar el artista. Es posible que tenga conciertos asociados.');
+          setTimeout(() => this.errorMessage.set(null), 5000);
         }
       });
     }

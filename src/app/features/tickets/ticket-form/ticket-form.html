@@ -1,0 +1,74 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="text-3xl font-bold text-white mb-8 uppercase border-l-4 border-rock-red pl-4">
+      <i class="fa-solid fa-ticket-simple mr-2 text-rock-red"></i>
+      {{ isEditMode() ? 'Editar Entrada' : 'Venta de Entrada' }}
+    </h2>
+
+    @if (errorMessage()) {
+      <div class="bg-red-900/50 border border-red-600 text-red-100 px-4 py-3 rounded mb-6">
+        <i class="fa-solid fa-circle-exclamation mr-2"></i>{{ errorMessage() }}
+      </div>
+    }
+
+    <div class="bg-rock-800 p-8 rounded-lg shadow-xl border border-gray-700">
+      <form (ngSubmit)="onSubmit()" #f="ngForm" class="space-y-6">
+
+        <div>
+          <label class="block text-gray-400 text-sm font-bold mb-2 uppercase">Asistente (Comprador)</label>
+          <select name="attendeeId" required
+                  [ngModel]="ticket().attendeeId"
+                  (ngModelChange)="updateField('attendeeId', $event)"
+                  #attendeeId="ngModel"
+                  class="w-full bg-rock-700 text-white border border-gray-600 rounded px-4 py-3 focus:border-rock-red outline-none transition"
+                  [class.border-red-500]="attendeeId.invalid && attendeeId.touched">
+            <option [ngValue]="undefined" disabled>Selecciona un asistente...</option>
+            @for (attendee of attendees(); track attendee.id) {
+              <option [value]="attendee.id">{{ attendee.name }} ({{ attendee.dni }})</option>
+            }
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-gray-400 text-sm font-bold mb-2 uppercase">Precio (€)</label>
+            <input type="number" name="price" required min="0.01" step="0.01"
+                   [ngModel]="ticket().price"
+                   (ngModelChange)="updateField('price', $event)"
+                   class="w-full bg-rock-700 text-white border border-gray-600 rounded px-4 py-3 focus:border-rock-red outline-none transition">
+          </div>
+
+          <div>
+            <label class="block text-gray-400 text-sm font-bold mb-2 uppercase">Tipo de Acceso</label>
+            <select name="type" required
+                    [ngModel]="ticket().type"
+                    (ngModelChange)="updateField('type', $event)"
+                    class="w-full bg-rock-700 text-white border border-gray-600 rounded px-4 py-3 focus:border-rock-red outline-none transition">
+              <option value="GENERAL">GENERAL</option>
+              <option value="VIP">VIP</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 bg-rock-700/50 p-4 rounded border border-gray-700">
+          <input type="checkbox" id="used" name="used"
+                 [ngModel]="ticket().used"
+                 (ngModelChange)="updateField('used', $event)"
+                 class="w-5 h-5 accent-rock-red">
+          <label for="used" class="text-white font-bold uppercase text-sm cursor-pointer">
+            Entrada ya utilizada
+          </label>
+        </div>
+
+        <div class="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-gray-700">
+          <a routerLink="/tickets" class="text-gray-400 hover:text-white font-bold py-2 px-4">Cancelar</a>
+          <button type="submit" [disabled]="f.invalid"
+                  class="bg-rock-red hover:bg-rock-darkred text-white font-bold py-3 px-8 rounded shadow-lg transform hover:scale-105 transition disabled:opacity-50">
+            <i class="fa-solid fa-save mr-2"></i>
+            {{ isEditMode() ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
